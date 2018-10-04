@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     // If production, add a hash to burst cache
-    filename: isProduction ? '[name].[hash].js' : '[name]'
+    filename: isProduction ? '[name].[hash].js' : '[name].js'
   },
   module: {
     rules: [
@@ -27,7 +27,10 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: 'html-loader'
+        loader: 'html-loader',
+        options: {
+          attrs: false
+        }
       }
     ]
   },
@@ -35,17 +38,15 @@ module.exports = {
     new AureliaPlugin(),
     // Standard plugin to build index.html
     new HtmlWebpackPlugin({
-      template: 'index.html'
+      template: 'index.ejs'
     }),
     new CopyWebpackPlugin([
       // Have all static files / asessts copied over
       { from: 'static/**', to: '.' },
       // Have base vendor css and javascript copied over
       { context: 'node_modules/jquery/dist', from: 'jquery.min.js', to: 'static/js' },
-      { context: 'node_modules/bootstrap/dist/js', from: 'bootstrap.min.js', to: 'static/js' },
-      { context: 'node_modules/bootstrap/dist/css', from: '**', to: 'static/css', ignore: '**.map' },
-      { context: 'node_modules/bootstrap-datepicker/dist/js', from: 'bootstrap-datepicker.min.js', to: 'static/js' },
-      { context: 'node_modules/bootstrap-datepicker/dist/css', from: 'bootstrap-datepicker.min.css', to: 'static/css' },
+      { context: 'node_modules/bootstrap/dist/js', from: 'bootstrap.bundle.min.js', to: 'static/js' },
+      { context: 'node_modules/bootstrap/dist/css', from: '**', to: 'static/css', ignore: '**.map' }
     ], {
         copyUnmodified: true
     }),

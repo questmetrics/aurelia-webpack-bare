@@ -1,16 +1,9 @@
-import { inlineView, observable } from 'aurelia-framework';
-
 export class App {
 
-  @observable()
-  appDate: Date;
+  appDate: Date = new Date();
 
   constructor() {
 
   }
 
-  appDateChanged() {
-    console.log('app date changed');
-    console.log(this.appDate);
-  }
 }
